@@ -85,8 +85,6 @@ router.put('./:id/addMemberToGroup', function(req, res, next){
   });
 });
 
-
-
 //SAFE TO DELETE
 router.put('/:id/getAndPut', function (req, res, next) {
   //FIRST GET CURRENT STEPS

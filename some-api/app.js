@@ -49,6 +49,11 @@ var users = require('./routes/users');
 app.use('/users', users);
 console.log(users);
 
+//Adding cities to routes
+var cities = require('./routes/cities');
+app.use('/cities', cities);
+console.log(cities);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
