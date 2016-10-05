@@ -20,4 +20,30 @@ router.get('/:id', function(req, res, next) {
   });
 });
 
+/* PUT /todos/:id */
+router.put('/:id', function(req, res, next) {
+  City.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
+/* POST /todos */
+router.post('/', function(req, res, next) {
+  City.create(req.body, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
+/* DELETE /todos/:id */
+router.delete('/:id', function(req, res, next) {
+  City.findByIdAndRemove(req.params.id, req.body, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
+
+
 module.exports = router;
