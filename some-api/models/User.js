@@ -2,8 +2,6 @@ var mongoose = require('mongoose');
 
 var UserSchema = new mongoose.Schema({
   userName: String,
-  userSteps: Number,
-  belongsToGroup: String,
   created_at: {type: Date, default: Date.now},
   updated_at: { type: Date, default: Date.now }
 });

@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
   });
 });
 
-/* GET /todos/id */
+/* GET /groups/id */
 router.get('/:id', function(req, res, next) {
   Group.findById(req.params.id, function (err, post) {
     if (err) return next(err);
@@ -20,16 +20,8 @@ router.get('/:id', function(req, res, next) {
   });
 });
 
-/* PUT /groups/:id */
-router.put('/:id', function(req, res, next) {
-  Group.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
-});
-
 /* POST /todos */
-router.post('/', function(req, res, next) {
+router.post('/createGroup', function(req, res, next) {
   Group.create(req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
@@ -37,23 +29,28 @@ router.post('/', function(req, res, next) {
 });
 
 /* DELETE /todos/:id */
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id/', function(req, res, next) {
   Group.findByIdAndRemove(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
 });
 
-router.put('/:id/superAdd', function (req, res, next) {
+//update groupSteps
+router.put('/:id/updateGroupsSteps', function (req, res, next) {
   //FIRST GET CURRENT STEPS
   Group.findById(req.params.id, function (err, post) {
     if (err) return next(err);
-    //TODO: EI LISÄÄ MATEMAATTISESTI
+
     var currentSteps = post.groupSteps;
     var newSteps = req.body.groupSteps;
-
+    currentSteps=parseInt(currentSteps);
+    newSteps=parseInt(newSteps);
     newSteps = newSteps + currentSteps;
-    req.body.groupSteps = req.body.groupSteps + post.groupSteps;
+
+    //newSteps = newSteps + currentSteps;
+    req.body.groupSteps =  newSteps;
+    //req.body.groupSteps = getNewSteps(currentSteps, newSteps);
 
     Group.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
       if (err) return next(err);
@@ -66,33 +63,53 @@ router.put('/:id/superAdd', function (req, res, next) {
 
 });
 
-/*router.get('/:id/:groupSteps', function(req, res, next) {
-  Group.findById(req.params.id, req.body, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
-});*/
 
-/* GET /todos/id
-router.get('/:id/:addSteps/'+number+'', function(req, res, next) {
+
+//addMember SAFE TO DELETE
+router.put('./:id/addMemberToGroup', function(req, res, next){
+  Group.findById(req.params.id, function(err, post){
+    if(err) return next(err);
+
+    var currentMembers = post.members;
+    var newMember = req.body.members;
+
+    currentMembers.push(newMember);
+
+    req.body.members = currentMembers;
+
+    Group.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+      if (err) return next(err);
+      res.json(post);
+    });
+
+  });
+});
+
+
+
+//SAFE TO DELETE
+router.put('/:id/getAndPut', function (req, res, next) {
+  //FIRST GET CURRENT STEPS
   Group.findById(req.params.id, function (err, post) {
     if (err) return next(err);
-    var groupSteps = post.groupSteps;
-    groupSteps = groupSteps + req.params.number;
-    res.json(groupSteps);
-  });
-});
-*/
+    //TODO: EI LISÄÄ MATEMAATTISESTI
+    var currentSteps = post.groupSteps;
+    var newSteps = req.body.groupSteps;
 
-/* PUT /groups/:id
-router.put('/:id/addSteps', function(req, res, next) {
-  Group.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
-    //res.send(req.params); //vanhat askeleet
-    //res.json(req.body.groupSteps); //lähetettävät askeleet!
+
+    //newSteps = newSteps + currentSteps;
+    req.body.groupSteps = req.body.groupSteps + post.groupSteps;
+    //req.body.groupSteps = getNewSteps(currentSteps, newSteps);
+
+    Group.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+      if (err) return next(err);
+      res.json(post);
+      //res.send(req.params); //vanhat askeleet
+      //res.json(req.body.groupSteps); //lähetettävät askeleet!
+    });
+
   });
+
 });
-*/
 
 module.exports = router;

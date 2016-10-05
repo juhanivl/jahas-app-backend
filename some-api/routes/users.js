@@ -27,7 +27,6 @@ router.put('/:id', function(req, res, next) {
     res.json(post);
   });
 });
-//TODO:
 //CHANGE USERNAME
 router.put('/:id', function(req, res, next){
   User.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
@@ -36,15 +35,40 @@ router.put('/:id', function(req, res, next){
   });
 });
 
-/* POST /todos */
-router.post('/', function(req, res, next) {
+
+/* POST /users */
+router.post('/addUser', function(req, res, next) {
   User.create(req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
 });
 
-/* DELETE /todos/:id */
+//update userSteps
+router.put('/:id/updateUserSteps', function (req, res, next) {
+  //FIRST GET CURRENT STEPS
+  User.findById(req.params.id, function (err, post) {
+    if (err) return next(err);
+    var currentSteps = post.userSteps;
+    var newSteps = req.body.userSteps;
+    currentSteps=parseInt(currentSteps);
+    newSteps=parseInt(newSteps);
+    newSteps = newSteps + currentSteps;
+
+    //newSteps = newSteps + currentSteps;
+    req.body.userSteps =  newSteps;
+
+    User.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+      if (err) return next(err);
+      res.json(post);
+
+    });
+
+  });
+
+});
+
+/* DELETE /users/:id */
 router.delete('/:id', function(req, res, next) {
   User.findByIdAndRemove(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
