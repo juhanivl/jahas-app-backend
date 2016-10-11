@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var GroupSchema = new mongoose.Schema({
   groupName: String,
-  groupRoute: Number,
+  groupRoute: String,
   groupSteps: Number,
   created_at: {type: Date, default: Date.now},
   updated_at: { type: Date, default: Date.now }

@@ -3,8 +3,7 @@ var mongoose = require('mongoose');
 var CitySchema = new mongoose.Schema({
   cityName: String,
   cityCapita: Number,
-  cityHistory: String,
-  cityCulture: String,
+  cityDescription: String,
   cityTrivia: String,
   created_at: {type: Date, default: Date.now},
   updated_at: { type: Date, default: Date.now }

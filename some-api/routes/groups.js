@@ -4,13 +4,42 @@ var mongoose = require('mongoose');
 var Group = require('../models/Group.js'); // this is important! link between route and model schema
 
 
-/* GET /groups listing. */
+/* GET /groups listing.*/
+/*
 router.get('/', function(req, res, next) {
   Group.find(function (err, groups) {
     if (err) return next(err);
+
     res.json(groups);
   });
 });
+*/
+
+/* GET /groups listing.*/
+router.get('/', function(req, res, next) {
+  Group.find(function (err, groups) {
+    if (err) return next(err);
+    var groupNameList = []
+    var groupInfo = {};
+
+
+    for(var i=0; i<groups.length; i++){
+      var groupInfo = {
+        "groupId": "",
+        "groupName": "",
+        "groupRoute": ""
+      }
+
+        groupInfo.groupId = groups[i].id;
+        groupInfo.groupName = groups[i].groupName;
+        groupInfo.groupRoute = groups[i].groupRoute;
+
+        groupNameList.push(groupInfo);
+    }
+    res.json(groupNameList);
+  });
+});
+
 
 /* GET /groups/id */
 router.get('/:id', function(req, res, next) {
