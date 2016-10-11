@@ -5,9 +5,9 @@
 ## Installation instructions
 ###For Mac users
 1. Download the repository
-2. Install brew, `npm install brew`
-3. Install MongoDB  `brew install mongodb && mongod`.
-4. Install Node JS `brew install nodejs`.
+2. Install brew: `npm install brew`
+3. Install MongoDB:  `brew install mongodb && mongod`.
+4. Install Node JS: `brew install nodejs`.
 
 ###For windows
 ...
